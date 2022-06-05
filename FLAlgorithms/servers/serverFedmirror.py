@@ -60,8 +60,8 @@ class Fedmirror(Server):
             for ii in range(1,len(Q)):
                 Q[0]=torch.cat((Q[0],Q[ii]))
                 
-        #P=RLprox(self.regularizer, Q[0], self.lamdaCO, self.local_epochs* self.learning_rate, self.l1const,self.l2const)
-        P=Q[0]
+        P=RLprox(self.regularizer, Q[0], self.lamdaCO, self.local_epochs* self.learning_rate, self.l1const,self.l2const)
+        #P=Q[0]
         ii=0
         for server_param in self.model.parameters():
             if self.modeltype=="Lasso" or self.modeltype=="Matrix": 
@@ -93,6 +93,7 @@ class Fedmirror(Server):
             # Evaluate gloal model on user for each interation
             print("Evaluate global model")
             print("")
+            self.selected_users = self.select_users(glob_iter,self.num_users)
             self.evaluate()
 
             # do update for all users not only selected users
@@ -101,7 +102,7 @@ class Fedmirror(Server):
             
             # choose several users to send back upated model to server
             # self.personalized_evaluate()
-            self.selected_users = self.select_users(glob_iter,self.num_users)
+            
 
 
 

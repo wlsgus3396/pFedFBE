@@ -41,17 +41,19 @@ class PerAvg(Server):
             print("-------------Round number: ",glob_iter, " -------------")
             # send all parameter for users 
             self.send_parameters()
+            self.selected_users = self.select_users(glob_iter,self.num_users)
             self.evaluate()
             # Evaluate gloal model on user for each interation
             print("Evaluate global model with one step update")
             print("")
-            self.evaluate_one_step()
+            
 
             # choose several users to send back upated model to server
-            self.selected_users = self.select_users(glob_iter,self.num_users)
+            
             for user in self.selected_users:
                 user.train(self.local_epochs) #* user.train_samples
-                
+
+            self.evaluate_one_step()    
             self.aggregate_parameters()
 
         self.save_results()

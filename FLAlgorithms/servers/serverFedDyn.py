@@ -68,11 +68,11 @@ class FedDyn(Server):
             print("-------------Round number: ",glob_iter, " -------------")
             #loss_ = 0
             self.send_parameters()
-
+            self.selected_users = self.select_users(glob_iter,self.num_users)
             # Evaluate model each interation
             self.evaluate()
 
-            self.selected_users = self.select_users(glob_iter,self.num_users)
+            
             for user in self.selected_users:
                 user.train(self.local_epochs) #* user.train_samples
             self.evaluate_personalized_model()

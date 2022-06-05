@@ -105,6 +105,7 @@ class FedDual(Server):
             # Evaluate gloal model on user for each interation
             print("Evaluate global model")
             print("")
+            self.selected_users = self.select_users(glob_iter,self.num_users)
             self.evaluate()
 
             # do update for all users not only selected users
@@ -113,7 +114,7 @@ class FedDual(Server):
             
             # choose several users to send back upated model to server
             # self.personalized_evaluate()
-            self.selected_users = self.select_users(glob_iter, self.num_users)
+            
 
             
             self.aggregate_parameters_FedDual(glob_iter)

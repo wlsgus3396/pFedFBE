@@ -104,13 +104,18 @@ class User:
             density=0
             loss=0
 
+            W=[]
+            W.append(np.concatenate((np.ones(32),np.zeros(1024-32)), axis=None))
             thr=0.01
             test_model =copy.deepcopy(self.model)
             test_model=test_model.linear.weight[0]
-            TP=sum(test_model.data[:512]>thr)
-            FP=sum(test_model.data[:512]<thr)
-            TN=sum(test_model.data[512:]<thr)
-            FN=sum(test_model.data[512:]>thr)
+            W=torch.tensor(W)
+            P=abs(test_model[torch.nonzero(W[0])])
+            N=abs(test_model[W[0]==0])
+            TP=sum(P>thr)
+            FP=sum(P<thr)
+            TN=sum(N<thr)
+            FN=sum(N>thr)
             count=TP+FN
             accuracy=(TN+TP)/(TN+FP+TP+FN)
             precision=TP/(TP+FP)
@@ -120,6 +125,7 @@ class User:
             else:
                 F1=0
             density=count/1024
+
 
 
 
@@ -206,14 +212,19 @@ class User:
             density=0
             loss=0
 
+
+            W=[]
+            W.append(np.concatenate((np.ones(32),np.zeros(1024-32)), axis=None))
+            W=torch.tensor(W)
             thr=0.01
             test_model =copy.deepcopy(self.model)
             test_model=test_model.linear.weight[0]
-
-            TP=sum(test_model.data[:512]>thr)
-            FP=sum(test_model.data[:512]<thr)
-            TN=sum(test_model.data[512:]<thr)
-            FN=sum(test_model.data[512:]>thr)
+            P=abs(test_model[torch.nonzero(W[0])])
+            N=abs(test_model[W[0]==0])
+            TP=sum(P>thr)
+            FP=sum(P<thr)
+            TN=sum(N<thr)
+            FN=sum(N>thr)
             count=TP+FN
             accuracy=(TN+TP)/(TN+FP+TP+FN)
             precision=TP/(TP+FP)
@@ -223,6 +234,8 @@ class User:
             else:
                 F1=0
             density=count/1024
+
+
 
 
 
