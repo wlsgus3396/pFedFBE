@@ -120,7 +120,7 @@ if __name__ == "__main__":
     parser.add_argument("--num_global_iters", type=int, default=100)
     parser.add_argument("--local_epochs", type=int, default=20)
     parser.add_argument("--optimizer", type=str, default="SGD")
-    parser.add_argument("--algorithm", type=str, default="FedAvg",choices=["pFedMe", "pPerAvg", "FedAvg","pFedditto","pFedprox","pSCAFFOLD","pFedDyn","pFedFBE","Fedmirror","FedDual"]) 
+    parser.add_argument("--algorithm", type=str, default="FedDual",choices=["pFedMe", "pPerAvg", "FedAvg","pFedditto","pFedprox","pSCAFFOLD","pFedDyn","pFedFBE","Fedmirror","FedDual"]) 
     parser.add_argument("--numusers", type=int, default=10, help="Number of Users per round")
     parser.add_argument("--K", type=int, default=10, help="Computation steps")
     parser.add_argument("--personal_learning_rate", type=float, default=0.0005, help="Persionalized learning rate to caculate theta aproximately using K steps, 0.005 (MNIST) , ")

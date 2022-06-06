@@ -118,7 +118,7 @@ class FedDual(Server):
 
             
             self.aggregate_parameters_FedDual(glob_iter)
-            self.send_parameters_dual
+            self.send_parameters_dual()
             self.evaluate_personalized_model()
         #print(loss)
         self.save_results()

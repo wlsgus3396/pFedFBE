@@ -113,35 +113,6 @@ class UserFedDual(User):
             loss.backward()
             local_weight_dual, _ = self.optimizer.step(self.regularizer, self.local_weight_dual, epoch, self.local_epochs, glob_iter,self.lamdaCO,self.modeltype,self.l1const,self.l2const)
             self.clone_model_paramenter(local_weight_dual, self.local_weight_dual)
-            if epoch == 1:
-                self.clone_model_paramenter(local_weight_dual, persionalized_model)
 
-
-
-
-
-
-        Q=[]
-        for q in persionalized_model:
-            Q.append(torch.flatten(q.data))
-        
-        if self.modeltype!="Lasso" and self.modeltype!="Matrix":
-            for ii in range(1,len(Q)):
-                Q[0]=torch.cat((Q[0],Q[ii]))
-        P=RLprox(self.regularizer, Q[0], self.lamdaCO, self.personal_learning_rate, self.l1const,self.l2const)
-        ii=0
-        for q in persionalized_model:
-            if self.modeltype=="Lasso" or self.modeltype=="Matrix": 
-                if len(torch.flatten(q.data))==1024:
-                    q.data=P[ii:ii+len(torch.flatten(q.data))].reshape(q.data.size())
-                    ii+=len(torch.flatten(q.data))
-            else:
-                q.data=P[ii:ii+len(torch.flatten(q.data))].reshape(q.data.size())    
-                ii+=len(torch.flatten(q.data))
-
-        self.clone_model_paramenter(persionalized_model, self.persionalized_model_bar)
-        self.clone_model_paramenter(persionalized_model, self.persionalized_model.parameters())
-        #update local model as local_weight_upated
-        #self.clone_model_paramenter(self.local_weight_updated, self.local_model)
 
         return LOSS
